@@ -11,21 +11,21 @@ import { propTypes, assignToPropertyObject } from '../util/paypalProp';
 const assignTo = assignToPropertyObject(additionalProps);
 
 export default {
-  props: Object.assign(
-    defaultProps(),
-    additionalProps.vmProps(),
-  ),
+  props: Object.assign(defaultProps(), additionalProps.vmProps()),
   methods: {
     payment() {
       const vue = this;
 
-      const transaction = Object.assign({
-        amount: {
-          total: this.amount,
-          currency: this.currency,
-          details: this.details,
+      const transaction = Object.assign(
+        {
+          amount: {
+            total: this.amount,
+            currency: this.currency,
+            details: this.details,
+          },
         },
-      }, assignTo(vue, propTypes.TRANSACTION));
+        assignTo(vue, propTypes.TRANSACTION),
+      );
 
       // TODO: clean this up
       if (transaction.shipping_address && transaction.item_list) {
@@ -59,30 +59,39 @@ export default {
       const vue = this;
       vue.$emit('payment-cancelled', data);
     },
+    onClick(data, actions) {
+      const vue = this;
+      vue.$emit('payment-clicked', { data, actions });
+    },
   },
   mounted() {
     const vue = this;
-    const button = Object.assign({
-      // Pass in env
-      env: vue.env,
+    const button = Object.assign(
+      {
+        // Pass in env
+        env: vue.env,
 
-      // Pass in the client ids to use to create your transaction
-      // on sandbox and production environments
-      client: vue.client,
+        // Pass in the client ids to use to create your transaction
+        // on sandbox and production environments
+        client: vue.client,
 
-      // Pass the payment details for your transaction
-      // See https://developer.paypal.com/docs/api/payments/#payment_create for the expected json parameters
-      payment: vue.payment,
+        // Pass the payment details for your transaction
+        // See https://developer.paypal.com/docs/api/payments/#payment_create for the expected json parameters
+        payment: vue.payment,
 
-      // Display a "Pay Now" button rather than a "Continue" button
-      commit: vue.commit,
+        // Display a "Pay Now" button rather than a "Continue" button
+        commit: vue.commit,
 
-      // Pass a function to be called when the customer completes the payment
-      onAuthorize: vue.onAuthorize,
+        // Pass a function to be called when the customer completes the payment
+        onAuthorize: vue.onAuthorize,
 
-      // Pass a function to be called when the customer cancels the payment
-      onCancel: vue.onCancel,
-    }, assignTo(vue, propTypes.BUTTON));
+        // Pass a function to be called when the customer cancels the payment
+        onCancel: vue.onCancel,
+
+        onClick: vue.onClick,
+      },
+      assignTo(vue, propTypes.BUTTON),
+    );
 
     paypal.Button.render(button, vue.$el);
   },

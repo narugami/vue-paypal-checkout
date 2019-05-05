@@ -154,10 +154,11 @@ describe('Methods within PayPalCheckout.vue', () => {
   });
 
   describe('action methods', () => {
-    test('has onAuthorize() and onCancel()', () => {
+    test('has onAuthorize() and onCancel() and onCancel()', () => {
       expect(checkout.vm).toEqual(expect.objectContaining({
         onAuthorize: expect.any(Function),
         onCancel: expect.any(Function),
+        onClick: expect.any(Function),
       }));
     });
 
