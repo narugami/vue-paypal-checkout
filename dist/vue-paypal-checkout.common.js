@@ -264,9 +264,9 @@ var script = {
       var vue = this;
       vue.$emit('payment-cancelled', data);
     },
-    onClick: function onClick(data) {
+    onClick: function onClick(data, actions) {
       var vue = this;
-      vue.$emit('payment-clicked', data);
+      vue.$emit('payment-clicked', actions);
     }
   },
   mounted: function mounted() {

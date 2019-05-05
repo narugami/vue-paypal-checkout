@@ -61,7 +61,7 @@ export default {
     },
     onClick(data, actions) {
       const vue = this;
-      vue.$emit('payment-clicked', { data, actions });
+      vue.$emit('payment-clicked', actions);
     },
   },
   mounted() {
